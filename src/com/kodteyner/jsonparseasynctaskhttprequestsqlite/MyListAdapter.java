@@ -11,8 +11,8 @@ import android.widget.TextView;
 public class MyListAdapter extends ArrayAdapter<String> {
 	
 
-    private static Context context;
-    private final EnCokOkunanlarList list;
+  private static Context context;
+  private final EnCokOkunanlarList list;
 
 
   public MyListAdapter(Context context, EnCokOkunanlarList list) {
@@ -22,8 +22,6 @@ public class MyListAdapter extends ArrayAdapter<String> {
 		this.context = context;
 		this.list = list;
   }
-
-
 
   @Override
 
@@ -35,7 +33,6 @@ public class MyListAdapter extends ArrayAdapter<String> {
           convertView = inflater.inflate(R.layout.mylist_row, parent, false);
       }
 
-      
       TextView title = (TextView) convertView.findViewById(R.id.row_title);
       TextView cat = (TextView) convertView.findViewById(R.id.row_cat);
 
@@ -45,28 +42,6 @@ public class MyListAdapter extends ArrayAdapter<String> {
       cat.setText(item.getCategory().toString());
       
       return convertView;
-      
-
-      /*ObjectItem objectItem = data[position];
-
-
-
- 
-
-      TextView textViewItem = (TextView) convertView.findViewById(R.id.textViewItem);
-
-      textViewItem.setText(objectItem.itemName);
-
-      textViewItem.setTag(objectItem.itemId);
-
-
-
-      return convertView;*/
-
-
 
   }
-
-
-
-	}
+}
