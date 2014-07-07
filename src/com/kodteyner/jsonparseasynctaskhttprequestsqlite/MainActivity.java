@@ -11,6 +11,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -20,8 +22,6 @@ public class MainActivity extends Activity {
 	ProgressDialog progressBar;
 	EnCokOkunanlarList list;
 	private DatabaseHelper db;
-	public TextView tv;
-	String myList="";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
 			progressBar.setMessage("Jsondan veriler çekiliyor...");
 			progressBar.setIndeterminate(false);
 			progressBar.show();
-		}
+		} 
 
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -74,7 +74,6 @@ public class MainActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Void args) { 
-			System.out.println(list);
 
         	db = new DatabaseHelper(MainActivity.this); 
         	db.deleteAllRecords();
@@ -87,31 +86,13 @@ public class MainActivity extends Activity {
 
         	dbdenGelen = db.butunHaberleriCek();
 
-        	
-        	for (int i=0; i<dbdenGelen.getLength(); i++ ) 
-        	{
-        		EnCokOkunanlarInfo item = new EnCokOkunanlarInfo();     
-        		
-				/*System.out.println(list.getItem(i).getId() + " - "
-						+ list.getItem(i).getTitle() + " - "
-						+ list.getItem(i).getDate() + " - "
-						+ list.getItem(i).getCategory() + " - "
-						+ list.getItem(i).getHit() + " - "
-						+ list.getItem(i).getThumb());	*/
-				
-				//Listeview içerisine de basýlabilir bu liste içerisindeki degerler.
-				myList += list.getItem(i).getId().toString() + " - ";
-				myList += list.getItem(i).getTitle().toString() + " - ";
-				myList += list.getItem(i).getDate().toString() + " - ";
-				myList += list.getItem(i).getCategory().toString() + " - ";
-				myList += list.getItem(i).getHit().toString() + " - ";
-				myList += list.getItem(i).getThumb().toString() + "\n\n\n";
-				
-				
-        	}
-        	 
-        	tv = (TextView)findViewById(R.id.jSonDonenDeger);
-        	tv.setText(myList);
+        	        	 
+        	//populate listview...
+        	ListView sonucList = (ListView) findViewById(R.id.myList);
+
+        	MyListAdapter adapter = new MyListAdapter(MainActivity.this, dbdenGelen);
+     		sonucList.setAdapter(adapter);
+     		
 			progressBar.dismiss();
 			
 		}
